@@ -24,8 +24,7 @@
         },
         methods: {
             removeTodo(item, index) {
-                localStorage.removeItem(item); //key로 해당 데이터 제거
-                this.todoItems.splice(index, 1);
+                this.$emit('removeEvent', item, index);
             }
         }
     }

@@ -2,8 +2,8 @@
   <div id="app">
     <headerTodo></headerTodo>
     <inputTodo v-on:inputData="addTodo"></inputTodo>
-    <list v-bind:listData="todoItems"></list>
-    <footerTodo></footerTodo>
+    <list v-bind:listData="todoItems" v-on:removeEvent="removeTodo"></list>
+    <footerTodo v-on:removeAll="removeAll"></footerTodo>
   </div>
 </template>
 
@@ -46,6 +46,14 @@ export default {
       localStorage.setItem(value, value); //localStorage는 key,value 쌍으로 저장됨, 경로 -> application/localstorage
       this.todoItems.push(value);
     },
+    removeTodo(item, index) {
+      localStorage.removeItem(item); //key로 해당 데이터 제거
+      this.todoItems.splice(index, 1);
+    },
+    removeAll() {
+      localStorage.clear();
+      this.todoItems = [];
+    }
   },
 }
 </script>
