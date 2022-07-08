@@ -1,6 +1,6 @@
 <template>
     <section>
-        <ul>
+        <transition-group name="list" tag="ul"> <!-- animation tag -->
             <li v-for="(item,index) in listData" v-bind:key="item" class="shadow">
                 <i class="checkBtn fas fa-check" aria-hidden="true"></i>
                     &nbsp; {{ item }}
@@ -8,7 +8,7 @@
                     <i class="far fa-trash-alt" aria-hidden="true"></i>
                 </span>
             </li>
-        </ul>
+        </transition-group>
     </section>
 </template>
 
@@ -58,5 +58,14 @@
     .removeBtn {
         margin-left: auto;
         color: #de4343;
+    }
+
+    .list-enter-active, .list-leave-active {
+        transition: all 1.5s;
+    }
+
+    .list-enter, .list-leave-to {
+        opacity: 0;
+        transform: translateY(30px);
     }
 </style>
