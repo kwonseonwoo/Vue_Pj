@@ -2,8 +2,12 @@
     <section>
         <transition-group name="list" tag="ul"> <!-- animation tag -->
             <li v-for="(item,index) in listData" v-bind:key="item" class="shadow">
-                <i class="checkBtn fas fa-check" aria-hidden="true"></i>
-                    &nbsp; {{ item }}
+                <span class="updateBtn" type="button" @click="updateTodo(index)">
+                    <i class="checkBtn fas fa-check" aria-hidden="true"></i>
+                </span>    
+                <span class="content"> &nbsp; {{ item }}</span>
+                <input class="inputBox content-input" v-model="updateData" placeholder="insert content to update" v-on:keyup.enter="updateData"/>
+                <i class="closeModalBtn fas fa-times " aria-hidden="true" v-on:click="cancelModify(index)"></i>
                 <span class="removeBtn" type="button" @click="removeTodo(item, index)">
                     <i class="far fa-trash-alt" aria-hidden="true"></i>
                 </span>
@@ -19,15 +23,33 @@
         ],
         data() {
             return {
-                
+                updateData: [],
             };
         },
+
         methods: {
             removeTodo(item, index) {
-                this.$emit('removeEvent', item, index);
-            }
+                confirm("삭제하시겠습니까?") 
+                    this.$emit('removeEvent', item, index);
+                    alert("삭제되었습니다.");    
+            },
+            updateTodo(index) { //To do :: 변수선언 후 버튼하나로 분기처리
+                document.querySelectorAll(`.content`)[index].style.display='none';
+                document.querySelectorAll(`.content-input`)[index].style.display='block';
+                document.querySelectorAll(`.closeModalBtn`)[index].style.display='block';
+            },
+            cancelModify(index) {
+                document.querySelectorAll(`.content`)[index].style.display='block';
+                document.querySelectorAll(`.content-input`)[index].style.display='none';
+                document.querySelectorAll(`.closeModalBtn`)[index].style.display='none';
+            },
         }
-    }
+            
+            // updateData(item, index) {
+
+            // }
+        }
+    
 </script>
 
 <style scoped>
@@ -58,6 +80,11 @@
     .removeBtn {
         margin-left: auto;
         color: #de4343;
+        cursor: pointer;
+    }
+
+    .updateBtn {
+        cursor: pointer;
     }
 
     .list-enter-active, .list-leave-active {
@@ -67,5 +94,26 @@
     .list-enter, .list-leave-to {
         opacity: 0;
         transform: translateY(30px);
+    }
+
+    .inputBox {
+        border-radius: 5px;
+        border-style: none;
+        margin-left: 10px;
+        height: 25px;
+        background: linear-gradient(to left, white, lightgray);
+        color:black;
+        margin-top: 20px;
+    }
+
+    .content-input {
+        display: none;
+    }
+
+    .closeModalBtn {
+        margin-top: 27px;
+        margin-left: 10px;
+        display: none;
+        cursor: pointer;
     }
 </style>
